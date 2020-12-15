@@ -1,0 +1,24 @@
+/* purgecss start ignore */
+@tailwind base;
+@tailwind components;
+/* purgecss end ignore */
+
+@tailwind utilities;
+
+body {
+	@apply text-base;
+}
+
+.scroll::-webkit-scrollbar {
+  width: 7px;
+  height: 9px;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+  @apply bg-input-dark;
+  border-radius: 8px;
+}
+
+.scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
