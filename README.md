@@ -1,3 +1,5 @@
+<img src="https://i.imgur.com/qxWGDdI.png" align="center" />
+
 # rminder
 
 This extension will notify you to drink water, correct your posture, blink, and stretch. Because we often forget to do all that when browsing, and it will affect your health.
