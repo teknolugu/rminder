@@ -4,11 +4,11 @@
 			class="p-2 rounded-lg"
 			:class="[
 				activity.disabled
-					? 'bg-input text-lighter'
+					? 'bg-gray-100 text-lighter'
 					: `bg-gradient-to-br text-white ${activity.color}`
 			]"
 		>
-			<icon-ui :name="activity.icon"></icon-ui>
+			<v-mdi :name="activity.icon"></v-mdi>
 		</div>
 		<div class="ml-3 flex-1">
 			<p class="capitalize leading-tight font-semibold">{{ activity.name }}</p>
@@ -16,10 +16,10 @@
 				{{ activity.disabled ? 'Disabled' : `${activity.interval} Minutes` }}
 			</p>
 		</div>
-		<switch-ui
+		<ui-switch
 			:model-value="!activity.disabled"
 			@update:model-value="toggleDisable"
-		></switch-ui>
+		></ui-switch>
 	</div>
 </template>
 <script>

@@ -1,6 +1,6 @@
 {
   "name": "rminder",
-  "version": "0.1.0",
+  "version": "0.1.3",
   "private": false,
   "scripts": {
     "serve": "vue-cli-service build --mode development --watch",
@@ -9,20 +9,17 @@
   },
   "dependencies": {
     "@mdi/js": "^5.8.55",
-    "autoprefixer": "9",
-    "chartist": "^0.11.4",
-    "comps-ui": "^0.6.19",
     "core-js": "^3.6.5",
     "dayjs": "^1.9.6",
     "deepmerge": "^4.2.2",
     "lodash.debounce": "^4.0.8",
-    "postcss": "7",
+    "lodash.throttle": "^4.1.1",
     "swiper": "^6.3.5",
-    "switch-theme": "^0.2.0",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat",
-    "vue": "^3.0.2",
+    "tippy.js": "^6.3.1",
+    "vue": "^3.0.11",
+    "vue-mdijs": "^0.5.0",
     "vue-slider-component": "^4.0.0-beta.3",
-    "vuex": "^4.0.0-rc.1"
+    "vuex": "^4.0.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
@@ -32,11 +29,14 @@
     "@vue/cli-service": "~4.5.0",
     "@vue/compiler-sfc": "^3.0.2",
     "@vue/eslint-config-airbnb": "^5.0.2",
+    "autoprefixer": "9",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-vue": "^6.2.2",
     "lint-staged": "^9.5.0",
+    "postcss": "7",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "vue-cli-plugin-browser-extension": "latest",
     "vue-template-compiler": "^2.6.11"
   },

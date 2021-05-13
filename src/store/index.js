@@ -21,7 +21,7 @@ const store = createStore({
   mutations: {
   	updateActivity(state, { name, data }) {
   		const newData = merge(state.activities[name], data);
-      console.log(newData);
+
   		state.activities[name] = newData;
 
       browser.storage.sync.set({

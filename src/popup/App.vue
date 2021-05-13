@@ -1,11 +1,17 @@
 <template>
-  <div class="app">
+  <div class="app scroll">
     <template v-if="isRetrieved">
-    	<div class="bg-light rounded-b-2xl p-4">
+    	<div class="rounded-b-2xl p-4">
     		<app-activities-card></app-activities-card>
     	</div>
     	<div class="content p-4">
-        <p class="mb-1">Reminder List</p>
+        <div class="flex items-center">
+          <p class="mb-1">Reminder List</p>
+          <div class="flex-1"></div>
+          <a href="https://github.com/WinTenDev/rminder" target="_blank">
+            <v-mdi name="mdiGithub"></v-mdi>
+          </a>
+        </div>
     	  <app-activities></app-activities>
       </div>
       <div class="p-4 text-sm">
@@ -15,18 +21,14 @@
           title="Icons8"
           class="text-primary"
           target="_blank"
-        >Icons8.com</a>
-        <p>
-          Notification sound provide by
-          <a
-            href="https://notificationsounds.com/"
-            class="text-primary"
-            target="_blank"
-          >Notification Sounds</a>
-        </p>
+        >
+          Icons8.com
+        </a>
       </div>
     </template>
-    <spinner-ui class="mx-auto my-6" v-else></spinner-ui>
+    <div class="text-center py-12" v-else>
+      <ui-spinner size="36"></ui-spinner>
+    </div>
   </div>
 </template>
 <script>
@@ -56,7 +58,6 @@ export default {
 
 <style>
 html {
-	font-family: "Inter", sans-serif !important;
   width: 340px;
   height: 500px;
 }

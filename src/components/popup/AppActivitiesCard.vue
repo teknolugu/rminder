@@ -9,14 +9,14 @@
 			:key="activity.name"
 			:class="[
 				activity.disabled
-					? 'bg-input text-lighter'
+					? 'bg-gray-100 text-gray-600'
 					: `text-white bg-gradient-to-br ${activity.color}`
 			]"
 			class="h-32 p-4 card-activity mr-2 rounded-xl select-none"
 		>
 			<div class="flex items-center mb-4">
 				<span class="inline-block p-2 rounded-lg bg-white bg-opacity-25 mr-2">
-					<icon-ui size="26" :name="activity.icon"></icon-ui>
+					<v-mdi size="26" :name="activity.icon"></v-mdi>
 				</span>
 				<div class="title">
 					<p class="capitalize font-semibold">{{ activity.name }}</p>

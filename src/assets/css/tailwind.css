@@ -1,12 +1,10 @@
-/* purgecss start ignore */
 @tailwind base;
 @tailwind components;
-/* purgecss end ignore */
-
 @tailwind utilities;
 
 body {
-	@apply text-base;
+	@apply text-gray-800 text-base;
+	font-family: 'Poppins', sans-serif;
 }
 
 .scroll::-webkit-scrollbar {
@@ -15,10 +13,16 @@ body {
 }
 
 .scroll::-webkit-scrollbar-thumb {
-  @apply bg-input-dark;
+  @apply bg-gray-400;
   border-radius: 8px;
 }
 
 .scroll::-webkit-scrollbar-track {
   background: transparent;
+}
+
+input:focus,
+button:focus,
+textarea:focus {
+	outline: none;
 }

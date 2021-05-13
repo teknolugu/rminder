@@ -1,13 +1,14 @@
+/* eslint-disable */
 const colors = require('tailwindcss/colors');
-const customTheme = require('comps-ui/dist/theme');
-const switchTheme = require('switch-theme');
 
 module.exports = {
-  purge: false,
+  mode: 'jit',
+  purge: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   darkMode: false,
   theme: {
     extend: {
     	colors: {
+        primary: '#3B82F6',
     		'light-blue': colors.lightBlue,
 	      indigo: colors.indigo,
 	      cyan: colors.cyan,
@@ -20,5 +21,4 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [switchTheme(customTheme)],
 };

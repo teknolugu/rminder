@@ -7,27 +7,27 @@
 		>
 			<div
 				class="activity p-3 rounded-lg transition"
-				:class="[activity.expand ? 'bg-input' : 'hover:bg-input']"
+				:class="[activity.expand ? 'bg-gray-50' : 'hover:bg-gray-50']"
 			>
 				<activity-header v-bind="{ activity }"></activity-header>
-				<expand-transition>
+				<transition-expand>
 					<div class="flex items-center mt-3" v-if="!activity.disabled">
 						<activity-slider v-bind="{ activity }"></activity-slider>
-						<icon-ui
+						<v-mdi
 							name="mdiCog"
 							v-tooltip:bottom="'Settings'"
 							class="cursor-pointer"
 							:class="[activity.expand ? 'text-primary' : 'text-lighter']"
 							@click="updateActivity(activity.name, { expand: !activity.expand })"
-						></icon-ui>
+						></v-mdi>
 					</div>
-				</expand-transition>
-				<expand-transition>
+				</transition-expand>
+				<transition-expand>
 					<activity-settings
 						class="settings mt-2 pt-2 border-t" v-if="activity.expand && !activity.disabled"
 						v-bind="{ activity }"
 					></activity-settings>
-				</expand-transition>
+				</transition-expand>
 			</div>
 		</div>
 	</div>

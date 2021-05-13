@@ -1,25 +1,40 @@
 /* eslint-disable import/no-dynamic-require */
+import throttle from 'lodash.throttle';
 import { activities as defaultActivities, defaultStats } from './utils/shared';
 import { getCurrentDate } from './utils/helper';
 
-browser.runtime.onInstalled.addListener(() => {
-  browser.storage.sync.set({
-    activities: defaultActivities,
-    stats: {
-      [getCurrentDate()]: defaultStats,
-    },
-  });
-  browser.storage.local.set({
-    stats: {},
-  });
+function setAllAlarms(activities) {
+  Object.entries(activities).forEach(([name, activity]) => {
+    if (activity.disabled) return;
 
-  Object.entries(defaultActivities).forEach(([name, activity]) => {
-    if (!activity.disabled) {
-      browser.alarms.create(name, {
-        periodInMinutes: activity.interval,
-      });
-    }
+    browser.alarms.create(name, {
+      periodInMinutes: activity.interval,
+    });
   });
+}
+
+browser.runtime.onInstalled.addListener(async ({ reason }) => {
+  if (reason === 'install') {
+    browser.storage.sync.set({
+      activities: defaultActivities,
+      stats: {
+        [getCurrentDate()]: defaultStats,
+      },
+    });
+    browser.storage.local.set({
+      stats: {},
+    });
+
+    setAllAlarms(defaultActivities);
+  }
+
+  if (reason === 'update') {
+    const { activities } = await browser.storage.sync.get('activities');
+
+    browser.alarms.clearAll();
+
+    setAllAlarms(activities);
+  }
 });
 
 async function incStats(name) {
@@ -39,25 +54,35 @@ async function incStats(name) {
     console.error(error);
   }
 }
-browser.alarms.onAlarm.addListener(async ({ name }) => {
+
+browser.alarms.onAlarm.addListener(async ({ name, scheduledTime }) => {
+  if ((Date.now() - 15000) > scheduledTime) return;
+
   await incStats(name);
+
   const { activities } = await browser.storage.sync.get('activities');
-  const timeoutTimes = [1000, 2000, 3000];
-  const randomIndex = Math.floor(Math.random() * timeoutTimes.length);
-  const timeout = timeoutTimes[randomIndex];
+  const { title, description } = activities[name].message;
 
-  setTimeout(() => {
-    if (activities[name].playSound) {
-      const audio = new Audio(require('./assets/audio/notification.mp3'));
-      audio.play();
-    }
-    const { title, description } = activities[name].message;
+  activities[name].lastShow = scheduledTime;
 
-    browser.notifications.create({
-    	type: 'basic',
-    	title,
-    	message: description,
-    	iconUrl: require(`./assets/icons/${name}.png`),
-    });
-  }, timeout);
+  browser.storage.sync.set({
+    activities,
+  });
+
+  browser.notifications.create({
+  	type: 'basic',
+  	title,
+  	message: description,
+  	iconUrl: require(`./assets/icons/${name}.png`),
+  });
 });
+browser.alarms.onAlarm.addListener(throttle(async ({ name, scheduledTime }) => {
+  if ((Date.now() - 15000) > scheduledTime) return;
+
+  const { activities } = await browser.storage.sync.get('activities');
+
+  if (activities[name].playSound) {
+    const audio = new Audio(require('./assets/audio/notification.wav'));
+    audio.play();
+  }
+}, 30000));

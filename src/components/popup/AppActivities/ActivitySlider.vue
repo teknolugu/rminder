@@ -3,10 +3,9 @@
 		tooltip-placement="bottom"
 		class="flex-1 mr-3 ml-2"
 		:tooltip-formatter="sliderFormatter"
-		:interval="5"
 		:model-value="activity.interval"
 		:max="120"
-		:min="5"
+		:min="1"
 		@change="updateInterval"
 	></vue-slider>
 </template>
