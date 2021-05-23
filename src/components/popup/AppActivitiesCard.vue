@@ -9,7 +9,7 @@
 			:key="activity.name"
 			:class="[
 				activity.disabled
-					? 'bg-gray-100 text-gray-600'
+					? 'bg-gray-200 text-gray-600'
 					: `text-white bg-gradient-to-br ${activity.color}`
 			]"
 			class="h-32 p-4 card-activity mr-2 rounded-xl select-none"

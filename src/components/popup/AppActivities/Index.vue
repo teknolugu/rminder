@@ -7,7 +7,7 @@
 		>
 			<div
 				class="activity p-3 rounded-lg transition"
-				:class="[activity.expand ? 'bg-gray-50' : 'hover:bg-gray-50']"
+				:class="[activity.expand ? 'bg-gray-100' : 'hover:bg-gray-100']"
 			>
 				<activity-header v-bind="{ activity }"></activity-header>
 				<transition-expand>

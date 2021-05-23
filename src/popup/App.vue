@@ -1,7 +1,7 @@
 <template>
   <div class="app scroll">
     <template v-if="isRetrieved">
-    	<div class="rounded-b-2xl p-4">
+    	<div class="rounded-b-2xl p-4 bg-gray-100">
     		<app-activities-card></app-activities-card>
     	</div>
     	<div class="content p-4">

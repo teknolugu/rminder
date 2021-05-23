@@ -13,7 +13,7 @@ body {
 }
 
 .scroll::-webkit-scrollbar-thumb {
-  @apply bg-gray-400;
+  @apply bg-gray-300;
   border-radius: 8px;
 }
 
