@@ -4,7 +4,9 @@ import { activities as defaultActivities, defaultStats } from './utils/shared';
 import { getCurrentDate } from './utils/helper';
 
 function setAllAlarms(activities) {
-  Object.entries(activities).forEach(([name, activity]) => {
+  const entries = Object.entries(activities);
+
+  entries.forEach(([name, activity]) => {
     if (activity.disabled) return;
 
     browser.alarms.create(name, {
@@ -15,38 +17,43 @@ function setAllAlarms(activities) {
 
 browser.runtime.onInstalled.addListener(async ({ reason }) => {
   if (reason === 'install') {
-    browser.storage.sync.set({
+    await browser.storage.sync.set({
       activities: defaultActivities,
+      customActivities: {},
       stats: {
         [getCurrentDate()]: defaultStats,
       },
     });
-    browser.storage.local.set({
+    await browser.storage.local.set({
       stats: {},
     });
+
+    await browser.alarms.clearAll();
 
     setAllAlarms(defaultActivities);
   }
 
   if (reason === 'update') {
-    const { activities } = await browser.storage.sync.get('activities');
+    const { customActivities } = await browser.storage.sync.get('customActivities');
 
-    browser.alarms.clearAll();
-
-    setAllAlarms(activities);
+    if (!customActivities) {
+      await browser.storage.sync.set({
+        customActivities: {},
+      });
+    }
   }
 });
 
-async function incStats(name) {
+async function incStats(id) {
   try {
     const { stats } = await browser.storage.local.get('stats');
-	  const todayStats = stats[getCurrentDate()] || defaultStats;
+	  const todayStats = stats[getCurrentDate()] || {};
 
 	  await browser.storage.local.set({
 	  	stats: {
 		  	[getCurrentDate()]: {
 		  		...todayStats,
-		  		[name]: todayStats[name] + 1,
+		  		[id]: (todayStats[id] || 0) + 1,
 		  	},
 		  },
 	  });
@@ -54,34 +61,54 @@ async function incStats(name) {
     console.error(error);
   }
 }
+async function validateReminder(id, scheduledTime) {
+  if ((Date.now() - 15000) > scheduledTime) {
+    return {
+      isValid: false,
+    };
+  }
+
+  const isMainReminder = Object.keys(defaultActivities).includes(id);
+  const {
+    customActivities,
+    activities,
+  } = await browser.storage.sync.get(['activities', 'customActivities']);
+  const activity = isMainReminder ? activities[id] : customActivities[id];
+
+  if (activity.disabled) {
+    await browser.alarms.clear(id);
+  }
+
+  return {
+    activity,
+    isValid: !activity.disabled,
+    isCustom: !isMainReminder,
+  };
+}
 
 browser.alarms.onAlarm.addListener(async ({ name, scheduledTime }) => {
-  if ((Date.now() - 15000) > scheduledTime) return;
+  const { isValid, activity, isCustom } = await validateReminder(name, scheduledTime);
+
+  if (!isValid) return;
 
   await incStats(name);
+  const notifications = await browser.notifications.getAll();
 
-  const { activities } = await browser.storage.sync.get('activities');
-  const { title, description } = activities[name].message;
+  if (notifications[name]) await browser.notifications.clear(name);
 
-  activities[name].lastShow = scheduledTime;
-
-  browser.storage.sync.set({
-    activities,
-  });
-
-  browser.notifications.create({
+  browser.notifications.create(name, {
   	type: 'basic',
-  	title,
-  	message: description,
-  	iconUrl: require(`./assets/icons/${name}.png`),
+  	title: activity.message.title,
+  	message: activity.message.description,
+  	iconUrl: require(`./assets/icons/${isCustom ? 'alarm' : name}.png`),
   });
 });
 browser.alarms.onAlarm.addListener(throttle(async ({ name, scheduledTime }) => {
-  if ((Date.now() - 15000) > scheduledTime) return;
+  const { isValid, activity } = await validateReminder(name, scheduledTime);
 
-  const { activities } = await browser.storage.sync.get('activities');
+  if (!isValid) return;
 
-  if (activities[name].playSound) {
+  if (activity.playSound) {
     const audio = new Audio(require('./assets/audio/notification.wav'));
     audio.play();
   }

@@ -6,6 +6,10 @@ import {
   mdiYoga,
   mdiCog,
   mdiGithub,
+  mdiClose,
+  mdiPlus,
+  mdiAlarm,
+  mdiDelete,
 } from '@mdi/js';
 
 VMdijs.add({
@@ -15,6 +19,10 @@ VMdijs.add({
   mdiYoga,
   mdiCog,
   mdiGithub,
+  mdiClose,
+  mdiPlus,
+  mdiAlarm,
+  mdiDelete,
 });
 
 export default VMdijs;

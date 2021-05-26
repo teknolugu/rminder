@@ -8,13 +8,12 @@ body {
 }
 
 .scroll::-webkit-scrollbar {
-  width: 7px;
+  width: 8px;
   height: 9px;
 }
 
 .scroll::-webkit-scrollbar-thumb {
   @apply bg-gray-300;
-  border-radius: 8px;
 }
 
 .scroll::-webkit-scrollbar-track {
@@ -25,4 +24,18 @@ input:focus,
 button:focus,
 textarea:focus {
 	outline: none;
+}
+
+.line-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.text-overflow {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

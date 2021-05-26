@@ -1,17 +1,10 @@
 <template>
-  <div class="app scroll">
+  <div class="app">
     <template v-if="isRetrieved">
     	<div class="rounded-b-2xl p-4 bg-gray-100">
     		<app-activities-card></app-activities-card>
     	</div>
     	<div class="content p-4">
-        <div class="flex items-center">
-          <p class="mb-1">Reminder List</p>
-          <div class="flex-1"></div>
-          <a href="https://github.com/WinTenDev/rminder" target="_blank">
-            <v-mdi name="mdiGithub"></v-mdi>
-          </a>
-        </div>
     	  <app-activities></app-activities>
       </div>
       <div class="p-4 text-sm">
@@ -32,10 +25,10 @@
   </div>
 </template>
 <script>
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import { useStore } from 'vuex';
 import AppActivitiesCard from '@/components/popup/AppActivitiesCard.vue';
-import AppActivities from '@/components/popup/AppActivities/Index.vue';
+import AppActivities from '@/components/popup/AppActivities.vue';
 
 export default {
   name: 'App',
@@ -44,10 +37,9 @@ export default {
   	const store = useStore();
     const isRetrieved = ref(false);
 
-  	onMounted(async () => {
-  		await store.dispatch('retrieve');
+    store.dispatch('retrieve').then(() => {
       isRetrieved.value = true;
-  	});
+    });
 
   	return {
       isRetrieved,
@@ -59,6 +51,6 @@ export default {
 <style>
 html {
   width: 340px;
-  height: 500px;
+  height: 600px;
 }
 </style>

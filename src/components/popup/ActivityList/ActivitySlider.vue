@@ -5,14 +5,15 @@
 		:tooltip-formatter="sliderFormatter"
 		:model-value="activity.interval"
 		:max="120"
-		:min="1"
+    :interval="5"
+		:min="5"
 		@change="updateInterval"
 	></vue-slider>
 </template>
 <script>
 import { useStore } from 'vuex';
 import VueSlider from 'vue-slider-component';
-import debounce from 'lodash.debounce';
+import { debounce } from '@/utils/helper';
 import 'vue-slider-component/theme/default.css';
 
 export default {
@@ -22,21 +23,23 @@ export default {
       type: Object,
       default: () => ({}),
     },
+    isCustom: Boolean,
   },
   setup(props) {
   	const store = useStore();
 
     const updateInterval = debounce(async (value) => {
   		store.commit('updateActivity', {
-  			name: props.activity.name,
+  			id: props.activity.id,
+        isCustom: props.isCustom,
   			data: {
   				interval: value,
   			},
   		});
 
-      await browser.alarms.clear(props.activity.name);
-      await browser.alarms.create(props.activity.name, {
-        periodInMinutes: props.activity.interval,
+      await browser.alarms.clear(props.activity.id);
+      await browser.alarms.create(props.activity.id, {
+        periodInMinutes: value,
       });
     }, 1000);
 

@@ -5,7 +5,6 @@ export const activities = {
     disabled: false,
     playSound: false,
     interval: 20,
-    lastShow: Date.now(),
     message: {
       title: 'Take a drink',
       description: 'It\' time to drink some water and stay hydrated!',
@@ -17,7 +16,6 @@ export const activities = {
     disabled: false,
     playSound: false,
     interval: 30,
-    lastShow: Date.now(),
     message: {
       title: 'Blink your eyes',
       description: 'It\'s time blink and give your eyes a break',
@@ -26,10 +24,9 @@ export const activities = {
   stretch: {
   	color: 'from-fuchsia-500 to-purple-600',
   	icon: 'mdiYoga',
-    disabled: true,
+    disabled: false,
     playSound: false,
     interval: 45,
-    lastShow: Date.now(),
     message: {
       title: 'Time to stretch',
       description: 'It\'s time to get up and stretch!',
@@ -41,7 +38,6 @@ export const activities = {
     disabled: true,
     playSound: false,
     interval: 20,
-    lastShow: Date.now(),
     message: {
       title: 'Are you sitting correctly?',
       description: 'It\'s time to correct your posture',

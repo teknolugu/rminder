@@ -14,9 +14,6 @@
         :id="componentId"
         class="w-full ui-input px-4 py-2 rounded-xl border border-gray-200 transition focus:ring focus:ring-opacity-50"
         :class="[
-          error
-            ? 'focus:ring-red-500 focus:border-red-500 border-red-500'
-            : 'focus:border-primary focus:ring-primary',
           disabled ? 'bg-gray-100 text-gray-500' : 'bg-transparent',
           {
             'pr-10': $slots.append,
