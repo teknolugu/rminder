@@ -13,7 +13,7 @@
     "dayjs": "^1.9.6",
     "deepmerge": "^4.2.2",
     "lodash.throttle": "^4.1.1",
-    "nanoid": "^3.1.31",
+    "nanoid": "^3.3.8",
     "swiper": "^6.3.5",
     "tippy.js": "^6.3.1",
     "vue": "^3.0.11",
